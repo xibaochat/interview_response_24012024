@@ -1,15 +1,18 @@
+from fastapi import APIRouter
+
+
+router = APIRouter()
+
 class MissingEnvVar(Exception):
     pass
 
-
-
-@app.get("/")
+@router.get("/")
 async def home_page():
      return {"greeting":"Hello world"}
 
 
 
-def change_datatype(user_input: List[str]):
+def change_datatype(user_input: list[str], alias="user_input"):
     for i in range(len(user_input)):
         if '.' in  user_input[i] and user_input[i].replace(".", "").isnumeric():
             user_input[i] = float(user_input[i])
@@ -17,8 +20,8 @@ def change_datatype(user_input: List[str]):
             user_input[i]  = int(user_input[i] )
     return user_input
 
-@app.post("/")
-async def polonais_calculator(user_input: List[str], alias="user_input") -> int:
+@router.post("/calculator")
+async def polonais_calculator(user_input: list[str], alias="user_input") -> int:
     print('user_input:', user_input)
     user_input = change_datatype(user_input)
     print(f'after user_input{user_input}')

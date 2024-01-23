@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from health import router as health_router
+from calculator import router as calculator_router
 
 
 app = FastAPI()
@@ -12,6 +13,7 @@ origins = ['*']
 
 
 app.include_router(health_router)
+app.include_router(calculator_router)
 
 app.add_middleware(
     CORSMiddleware,
