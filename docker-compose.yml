@@ -6,6 +6,8 @@ services:
       - postgres
     build: backend
     container_name: "container-fastapi"
+    volumes:
+      - ./backend/src:/opt
     ports:
       - "8000:80"
     networks:
