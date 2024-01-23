@@ -54,3 +54,19 @@ async def polonais_calculator(user_input: List[str], alias="user_input") -> int:
         raise MissingEnvVar(_msg) from None
     res = arr.pop()
     return res
+
+# @app.post("/")
+# def compute(sequence): #: list) -> int:
+#     d = list()
+#     for touche in sequence:
+#         if isinstance(touche, int):
+#             d.append(touche)
+#         elif isinstance(touche, str):
+#             b, a = d.pop(), d.pop()
+#             expr = f"{a} {touche} {b}"
+#             d.append(eval(expr))
+
+#             #                raise ValueError(f"Expression invalide: {touche}")
+#             print(f"{d}  # {touche}")
+#             res = d.pop()
+#     return res
