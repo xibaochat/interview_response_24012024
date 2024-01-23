@@ -1,24 +1,7 @@
-from fastapi import FastAPI, Query
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List, Union
-
-app = FastAPI()
-origins = ['*']
-
-class UserInput(BaseModel):
-    user_input: List
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
-
 class MissingEnvVar(Exception):
     pass
+
+
 
 @app.get("/")
 async def home_page():

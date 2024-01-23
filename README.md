@@ -1,7 +1,15 @@
 ## launch the project
 
+### dependancies
+
+* make
+* docker
+* docker-compose
+
+### How to
+
 ```bash
-docker-compose up --build -V
+make re
 ```
 
 ## connect to db manually
