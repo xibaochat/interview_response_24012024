@@ -6,9 +6,9 @@ class CalculationException(Exception):
     pass
 
 
-def get_ops(arr: List)-> Tuple:
+def get_ops(arr: List[Union[int, float]]) -> Tuple:
     """
-        Pop the numbers to make the calculation with
+        Pop the numbers to make the calculation with\
         :param (List) arr: object to extract the last two number from
         return (Tuple): poped numbers
     """
@@ -20,7 +20,7 @@ def get_ops(arr: List)-> Tuple:
     return n1, n2
 
 
-def solve_operation(arr: List, oper: str):
+def solve_operation(arr: List[Union[int, float]], oper: str):
     """
     Calculate the 2 last poped element then append the result in arr
     """
@@ -39,7 +39,7 @@ def solve_operation(arr: List, oper: str):
         arr.append(math.pow(n2, n1))
 
 
-def calculator(instruction: List[Union[int, str]]) -> int:
+def calculator(instruction: List[Union[int, float, str]]) -> float:
     """
     iterate each element, if it's operation then do the calculation,
     if not append the element
@@ -49,5 +49,8 @@ def calculator(instruction: List[Union[int, str]]) -> int:
         if ele in ['+', '-', '*', '/', '^']:
             solve_operation(arr, ele)
         else:
-            arr.append(float(ele))
+            try:
+                arr.append(float(ele))
+            except ValueError:
+                raise CalculationException()
     return arr[-1]

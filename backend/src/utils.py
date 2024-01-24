@@ -7,7 +7,6 @@ from sqlalchemy.orm import sessionmaker, Session
 from models import Base
 
 
-
 def init_db() -> Session:
     try:
         db_url = os.environ['DB_URL']
@@ -32,7 +31,8 @@ def init_db() -> Session:
 
 def get_data_directory() -> str:
     """
-        Create a uniq directory where the current database data version will be stored
+        Create a uniq directory where the current database \
+        data version will be stored
         :return (str): created directory
     """
     unique_id = str(uuid.uuid4())

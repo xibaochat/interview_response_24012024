@@ -15,7 +15,7 @@ class TestUtils(unittest.TestCase):
     @patch('utils.get_data_directory')
     def test_get_data_filepath_func_called(self, mock_get_data_directory):
         get_data_filepath()
-        self.assertTrue(mock_get_data_directory.called)
+        self.assertTrue(mock_get_data_directory.called_once)
 
     def test_init_db_exception(self):
         import os
@@ -37,14 +37,8 @@ class TestUtils(unittest.TestCase):
     @patch('utils.os')
     def test_get_data_directory_func_called(self, mock_os, mock_uuid):
         get_data_directory()
-        self.assertTrue(mock_uuid.uuid4.called)
-
-    @patch('utils.uuid')
-    @patch('utils.os')
-    def test_get_data_directory_func_called(self, mock_os, mock_uuid):
-        get_data_directory()
-        self.assertTrue(mock_os.makedirs.called)
-
+        self.assertTrue(mock_uuid.uuid4.called_once)
+        self.assertTrue(mock_os.makedirs.called_once)
 
 
 if __name__ == '__main__':

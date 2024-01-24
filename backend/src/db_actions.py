@@ -8,7 +8,8 @@ from models import InstructionRecord
 
 def register_to_db(instruction: List[Union[str, float]], result: float):
     """
-        initialize db, creates an item of table,  adds it to db, commits the changes, and then closes the database connection.
+        initialize db, creates an item of table,  adds it to db, \
+        commits the changes, and then closes the database connection.\
         :param (List) instruction: instruction from user
     """
     db = init_db()
@@ -29,7 +30,7 @@ def instruction_exist(instruction: Tuple[Union[str, float]]) -> bool:
     """
     db = init_db()
     exists_query = db.query(InstructionRecord) \
-                     .filter(InstructionRecord.instruction==instruction) \
+                     .filter(InstructionRecord.instruction == instruction)\
                      .exists()
     return db.query(exists_query).scalar()
 
@@ -43,7 +44,7 @@ def fetch_instruction_result(instruction: Tuple[Union[str, float]]) -> float:
     db = init_db()
     query = db.query(InstructionRecord) \
               .with_entities(InstructionRecord.result) \
-              .filter(InstructionRecord.instruction==instruction)
+              .filter(InstructionRecord.instruction == instruction)
     res = db.execute(query)
     db.close()
     return res.one().result
@@ -52,9 +53,10 @@ def fetch_instruction_result(instruction: Tuple[Union[str, float]]) -> float:
 @lru_cache()
 def fetch_data() -> pd.DataFrame:
     """
-        Utilisation of functools.lru_cache decorator in Python helps avoid redundant data
-        reading from db. It only triggers the database query only when new data is
-        inserted into the database.
+        Utilisation of functools.lru_cache decorator \
+        in Python helps avoid redundant data
+        reading from db. It only triggers the database query \
+        only when new data is inserted into the database.\
         :return (DataFrame): fetched data as a pandas dataframe
     """
     db = init_db()

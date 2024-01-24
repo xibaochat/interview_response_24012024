@@ -6,14 +6,29 @@ FastAPI with Postgresql project to make polish calculation and get an history of
 
 * The project was lint using `flake8`, `bandit`, `safety` and `xenon`.
 ```
-export SRC_PATH="backend/src"
-flake8 $SRC_PATH
-bandit -r $SRC_PATH
-safety check
-xenon -b B -m A -a A $SRC_PATH
+$ pip install flake8 bandit safety xenon
+[...]
+$ export SRC_PATH="backend/src"
+$ flake8 $SRC_PATH
+$ bandit -r $SRC_PATH
+$ safety check
+$ xenon -b B -m A -a A $SRC_PATH
 ```
 * Secrets are defined inside the `.env` en `.env_fastapi` files. This behavior is too dangerous to be kept in production.
 * The DB user has all privilege ; for production, make sure to create a limited one.
+
+## Unittest
+
+```
+$ pip install parameterized
+$ cd backend/src
+$ python -m unittest discover ../tests
+....................................
+----------------------------------------------------------------------
+Ran 36 tests in 0.007s
+
+OK
+```
 
 ## launch the project
 
@@ -26,7 +41,7 @@ xenon -b B -m A -a A $SRC_PATH
 ### How to
 
 ```bash
-make re
+$ make re
 ```
 
 ## Access to SWAGGER documenation
@@ -49,6 +64,10 @@ $ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/js
 
 $ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/json" -d '{"instruction": [3, 1, 2, "+", 1, "*", "+"]}'
 6
+
+$ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/json" -d '{"instruction": [3.5, 1, 2, "+", 1, "*", "+"]}'
+6.5
+
 $ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/json" -d '{"instruction": [2,"+"]}'
 {"detail":"Something went wrong with the provided inputs."}
 

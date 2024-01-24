@@ -1,9 +1,7 @@
-import os
 from typing import Union, List
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from calculator_algo import calculator, CalculationException
@@ -13,7 +11,7 @@ from db_actions import (
     fetch_instruction_result,
     fetch_data
 )
-from utils import init_db, get_data_filepath
+from utils import get_data_filepath
 
 
 router = APIRouter()
@@ -22,6 +20,7 @@ router = APIRouter()
 class CalculatorSchema(BaseModel):
     instruction: List[Union[str, float]]
 
+
 @router.post(
     "/calculator",
     tags=["polish-calculator"],
@@ -29,16 +28,13 @@ class CalculatorSchema(BaseModel):
     response_description="Calculation result",
 )
 def polish_calculator(inputs: CalculatorSchema) -> float:
-    """
-        Make polish calculation.
-    """
     # Skip calculation if it already exists in db
     if instruction_exist(tuple(inputs.instruction)):
         return fetch_instruction_result(tuple(inputs.instruction))
 
     try:
         result = calculator(inputs.instruction)
-    except (ValueError, CalculationException):
+    except CalculationException:
         raise HTTPException(
             status_code=400,
             detail='Something went wrong with the provided inputs.'
@@ -48,7 +44,12 @@ def polish_calculator(inputs: CalculatorSchema) -> float:
     return result
 
 
-@router.get("/download_data")
+@router.get(
+    "/download_data",
+    tags=["download-data"],
+    summary="Download the existings instructions and results from the database",
+    response_description="CSV file containing all instructions with their results",
+)
 def get_data_in_csv_file():
     df = fetch_data()
     file_path = get_data_filepath()
