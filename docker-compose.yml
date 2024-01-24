@@ -1,5 +1,4 @@
-version: "3.7"
-
+version: "3.8"
 services:
   fastapi:
     depends_on:
@@ -21,19 +20,13 @@ services:
     env_file:
      - .env
     environment:
-      PG_DATA: /var/lib/postgresql/data
       POSTGRES_DB: ${POSTGRES_DATABASE_NAME}
       POSTGRES_USER: ${POSTGRES_USERNAME}
     ports:
       - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./db_backup:/opt/db_backup
     networks:
       - webnet
     restart: always
 networks:
   webnet:
     driver: bridge
-volumes:
-  pgdata:

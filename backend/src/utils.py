@@ -1,9 +1,11 @@
 import os
+import uuid
 
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, Session
 
 from models import Base
+
 
 
 def init_db() -> Session:
@@ -26,3 +28,23 @@ def init_db() -> Session:
         Base.metadata.create_all(bind=engine)
 
     return session_maker()
+
+
+def get_data_directory() -> str:
+    """
+        Create a uniq directory where the current database data version will be stored
+        :return (str): created directory
+    """
+    unique_id = str(uuid.uuid4())
+    directory_path = f'./csv/{unique_id}/'
+    os.makedirs(directory_path, exist_ok=True)
+    return directory_path
+
+
+def get_data_filepath() -> str:
+    """
+        Return a unique filepath
+        :return (str): uniquely generated filepath
+    """
+    directory_path = get_data_directory()
+    return f'{directory_path}data.csv'

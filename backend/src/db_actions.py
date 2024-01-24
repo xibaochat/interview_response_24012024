@@ -1,12 +1,15 @@
 from typing import Union, List
+from functools import lru_cache
+import pandas as pd
 
 from utils import init_db
 from models import InstructionRecord
 
 
-def register_to_db(instruction: List[Union[str, int]], result: int) -> bool:
+def register_to_db(instruction: List[Union[str, float]], result: float):
     """
-    BOID
+        initialize db, creates an item of table,  adds it to db, commits the changes, and then closes the database connection.
+        :param (List) instruction: instruction from user
     """
     db = init_db()
     db_record = InstructionRecord(
@@ -18,9 +21,11 @@ def register_to_db(instruction: List[Union[str, int]], result: int) -> bool:
     db.close()
 
 
-def instruction_exist(instruction: List[Union[str, int]]) -> bool:
+def instruction_exist(instruction: List[Union[str, float]]) -> bool:
     """
-    BOID
+        check if the instruction is already in db
+        :param (List) instruction: instruction from user
+        :return (bool): if instruction is already exist
     """
     db = init_db()
     exists_query = db.query(InstructionRecord) \
@@ -29,9 +34,11 @@ def instruction_exist(instruction: List[Union[str, int]]) -> bool:
     return db.query(exists_query).scalar()
 
 
-def fetch_instruction_result(instruction: List[Union[str, int]]) -> int:
+@lru_cache()
+def fetch_instruction_result(instruction: List[Union[str, float]]) -> float:
     """
-    BOID
+    retrieve the result from a given existed instruction in db
+    :return (float): fetched result of instruction
     """
     db = init_db()
     query = db.query(InstructionRecord) \
@@ -40,3 +47,17 @@ def fetch_instruction_result(instruction: List[Union[str, int]]) -> int:
     res = db.execute(query)
     db.close()
     return res.one().result
+
+
+@lru_cache()
+def fetch_data() -> pd.DataFrame:
+    """
+        Utilisation of functools.lru_cache decorator in Python helps avoid redundant data
+        reading from db. It only triggers the database query only when new data is
+        inserted into the database.
+        :return (DataFrame): fetched data as a pandas dataframe
+    """
+    db = init_db()
+    query = 'SELECT instruction, result FROM instruction_record;'
+    data = pd.read_sql_query(query, db.connection())
+    return pd.DataFrame(data)

@@ -1,9 +1,6 @@
 import math
 from typing import Union, List, Tuple
 
-ERROR = 0
-OK = 1
-
 
 class CalculationException(Exception):
     pass
