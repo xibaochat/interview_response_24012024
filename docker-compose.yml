@@ -6,6 +6,8 @@ services:
       - postgres
     build: backend
     container_name: "container-fastapi"
+    env_file:
+      - .env_fastapi
     volumes:
       - ./backend/src:/opt
     ports:

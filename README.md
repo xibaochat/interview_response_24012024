@@ -1,3 +1,8 @@
+# API for polish calculation
+
+FastAPI project to make polish calculation and get an history of given instructions.
+The project was lint using `flake8`, `bandit`, `safety` and `xenon`.
+
 ## launch the project
 
 ### dependancies
@@ -12,24 +17,35 @@
 make re
 ```
 
-## connect to db manually
+## Access to SWAGGER documenation
+
+```
+http://127.0.0.1:8000/docs#/
+```
+
+## Connect to db manually
 
 ```bash
 psql -h localhost -p 5432 -U root -d db
 ```
 
-## route download_data
-get all data in table instruction_record and return data.csv file.
+## Make some calculation
 
-### download the csv file
 ```bash
-sudo wget http://127.0.0.1:8000/download_data
+$ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/json" -d '{"instruction": [3,2,"+"]}'
+5
+
+$ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/json" -d '{"instruction": [3, 1, 2, "+", 1, "*", "+"]}'
+6
+$ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/json" -d '{"instruction": [2,"+"]}'
+{"detail":"Something went wrong with the provided inputs."}
+
 ```
-### test manualy
+
+##  Download data csv file
+
+Get all the data in the table `instruction_record` and return it as a csv file (named `data.csv` by default).
+
 ```bash
 curl -X GET http://127.0.0.1:8000/download_data -H "Content-Type: application/json"
 ```
-data.csv will be stored in a separate, uniquely identified directory under csv by using the uuid module.
-Utilisation of functools.lru_cache decorator in Python helps avoid redundant data reading and file creation when there's no new data entry. It only triggers the database query and file creation when new data is entered into the database.
-
-The data.csv contains columns instruction and result.

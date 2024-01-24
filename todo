@@ -1,0 +1,5 @@
+- write docstrings following same format (see BOID)
+- flake8
+- bandit
+- xenon -b B -m A -a A
+- safety check
