@@ -1,7 +1,19 @@
 # API for polish calculation
 
 FastAPI project to make polish calculation and get an history of given instructions.
-The project was lint using `flake8`, `bandit`, `safety` and `xenon`.
+
+## Consideration
+
+* The project was lint using `flake8`, `bandit`, `safety` and `xenon`.
+```
+export SRC_PATH="backend/src"
+flake8 $SRC_PATH
+bandit -r $SRC_PATH
+safety check
+xenon -b B -m A -a A $SRC_PATH
+```
+* Secrets are defined inside the `.env` en `.env_fastapi` files. This behavior is too dangerous to be kept in production.
+* The DB user has all privilege ; for production, make sure to create a limited one.
 
 ## launch the project
 
