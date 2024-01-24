@@ -3,11 +3,12 @@ from typing import Union, List
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, Session
 
-from models import InstructionRecord
+from models import InstructionRecord, Base
 
+from calculator_algo import calculator
 
 router = APIRouter()
 
@@ -19,6 +20,10 @@ class InstructionSchema(BaseModel):
 def init_db():
     DATABASE_URL = 'postgresql://root:root@container-postgres:5432/db'
     engine = create_engine(DATABASE_URL)
+    metadata = MetaData()
+    metadata.reflect(bind=engine)
+    if not 'instruction_record' in metadata.tables:
+        Base.metadata.create_all(bind=engine)
     session_maker = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     return session_maker()
 
@@ -31,6 +36,7 @@ def register_to_db(instruction: List[Union[str, int]], result: int) -> bool:
     )
     db.add(db_record)
     db.commit()
+    db.close()
 
 
 def instruction_exist(instruction: List[Union[str, int]]) -> bool:
@@ -47,6 +53,7 @@ def fetch_instruction_result(instruction: List[Union[str, int]]) -> int:
               .with_entities(InstructionRecord.result) \
               .filter(InstructionRecord.instruction==instruction)
     res = db.execute(query)
+    db.close()
     return res.one().result
 
 
@@ -56,6 +63,6 @@ def polonais_calculator(inputs: InstructionSchema) -> int:
     if instruction_exist(inputs.instruction):
         return fetch_instruction_result(inputs.instruction)
     # Need to do calculation
-    result = 42
+    result = calculator(inputs.instruction)
     register_to_db(inputs.instruction, result)
     return result

@@ -7,4 +7,4 @@ class InstructionRecord(Base):
     __tablename__ = 'instruction_record'
     id  = Column(Integer, primary_key=True, index=True)
     instruction = Column(ARRAY(String), nullable=False, unique=True)
-    result = Column(Integer, nullable=False)
+    result = Column(Integer, nullable=True)
