@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import Union, List, Tuple
 from functools import lru_cache
 import pandas as pd
 
@@ -21,7 +21,7 @@ def register_to_db(instruction: List[Union[str, float]], result: float):
     db.close()
 
 
-def instruction_exist(instruction: List[Union[str, float]]) -> bool:
+def instruction_exist(instruction: Tuple[Union[str, float]]) -> bool:
     """
         check if the instruction is already in db
         :param (List) instruction: instruction from user
@@ -35,7 +35,7 @@ def instruction_exist(instruction: List[Union[str, float]]) -> bool:
 
 
 @lru_cache()
-def fetch_instruction_result(instruction: List[Union[str, float]]) -> float:
+def fetch_instruction_result(instruction: Tuple[Union[str, float]]) -> float:
     """
     retrieve the result from a given existed instruction in db
     :return (float): fetched result of instruction

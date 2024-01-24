@@ -33,9 +33,8 @@ def polish_calculator(inputs: CalculatorSchema) -> float:
         Make polish calculation.
     """
     # Skip calculation if it already exists in db
-    if instruction_exist(inputs.instruction):
-        print(f'-----{inputs.instruction}-----')
-        return fetch_instruction_result(inputs.instruction)
+    if instruction_exist(tuple(inputs.instruction)):
+        return fetch_instruction_result(tuple(inputs.instruction))
 
     try:
         result = calculator(inputs.instruction)
