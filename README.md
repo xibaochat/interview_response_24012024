@@ -1,6 +1,6 @@
 # API for polish calculation
 
-FastAPI project to make polish calculation and get an history of given instructions.
+FastAPI with Postgresql project to make polish calculation and get an history of given instructions.
 
 ## Consideration
 

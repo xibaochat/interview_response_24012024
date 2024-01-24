@@ -15,4 +15,4 @@ clean:
 	@rm -f */**/download_data*
 	@rm -f */**/*~
 
-re: down build up logs
+re: down clean build up logs
