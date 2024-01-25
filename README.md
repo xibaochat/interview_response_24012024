@@ -75,7 +75,7 @@ $ curl -X POST http://127.0.0.1:8000/calculator -H "Content-Type: application/js
 
 ##  Download data csv file
 
-Get all the data in the table `instruction_record` and return it as a csv file (named `data.csv` by default).
+Get all the data in the table `instruction_record` and return it as a csv file (named `data.csv` by default) in a sub-directory with a unique name under the directory `backend/src/csv/`
 
 ```bash
 curl -X GET http://127.0.0.1:8000/download_data -H "Content-Type: application/json"
