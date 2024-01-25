@@ -47,8 +47,12 @@ def polish_calculator(inputs: CalculatorSchema) -> float:
 @router.get(
     "/download_data",
     tags=["download-data"],
-    summary="Download the existings instructions and results from the database",
-    response_description="CSV file containing all instructions with their results",
+    summary="""
+    Download the existings instructions and results from the database
+    """,
+    response_description="""
+    CSV file containing all instructions with their results
+    """,
 )
 def get_data_in_csv_file():
     df = fetch_data()
