@@ -80,3 +80,10 @@ Get all the data in the table `instruction_record` and return it as a csv file (
 ```bash
 curl -X GET http://127.0.0.1:8000/download_data -H "Content-Type: application/json"
 ```
+
+# React for front
+
+## calculator
+```
+http://127.0.0.1:3000/calculator
+```
