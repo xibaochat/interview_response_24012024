@@ -31,6 +31,7 @@ function App() {
 	<Routes>
           <Route path="/" element={<img src={defaultCat} alt="petit chat" navigate={navigate}/>}/>
           <Route path="/calculator" element={<Calculator/>}/>
+
           <Route path="/*" element={<NoPage imageUrl={imageUrl}/>} />
     </Routes>
   );

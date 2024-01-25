@@ -20,7 +20,8 @@ const Calculator = () => {
     setInput(e.target.value);
   };
 
-const handleAddToList = () => {
+	const handleAddToList = (e) => {
+		e.preventDefault();
   const inputValue = input.trim();
 
   if (inputValue !== '') {
@@ -33,7 +34,8 @@ const handleAddToList = () => {
       setInput(''); // Clear the input field
       setError(null);
     } else {
-      setError('Invalid input. Must be a number or one of the allowed operators.');
+		setError('Invalid input. Must be a number or one of the allowed operators.');
+		setInput('');
     }
   } else {
     setError('Input cannot be empty.');
@@ -76,10 +78,13 @@ const handleAddToList = () => {
 	<h1>Polish Calculator</h1>
       <p>Input: {inputList.join(' ')}</p>
       <p>Result: {result !== null ? result : 'N/A'}</p>
-      <p>Error: {error}</p>
-      <input type="text" value={input} onChange={handleInputChange} />
-	  <button type="reset" onClick={handleAddToList}>Add to List</button>
-      <button type="button" onClick={handleCalculate}>Calculate</button>
+			<p>Error: {error}</p>
+			<div>Input:</div>
+			<div style={{ textAlign: 'center' }}>
+			<input  type="text" value={input} onChange={handleInputChange} />
+			</div>
+	  <button  onClick={handleAddToList}>Add to List</button>
+	  <button type="button" onClick={handleCalculate}>Calculor</button>
     </form>
   );
 };
