@@ -42,21 +42,15 @@ def solve_operation(arr: List[Union[int, float]], oper: str):
 def calculator(instruction: List[Union[int, float, str]]) -> float:
     """
     iterate each element, if it's operation then do the calculation,
-    if type is string but not operator, raise error,
-    if it is a number then append the element, return only if arr
-    has 1 element left
+    if not append the element
     """
     arr = []
     for ele in instruction:
         if ele in ['+', '-', '*', '/', '^']:
             solve_operation(arr, ele)
-        elif type(ele) == str:
-            raise CalculationException()
         else:
             try:
                 arr.append(float(ele))
             except ValueError:
                 raise CalculationException()
-    if len(arr) != 1:
-        raise CalculationException()
     return arr[-1]
