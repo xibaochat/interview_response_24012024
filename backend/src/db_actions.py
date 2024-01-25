@@ -32,10 +32,11 @@ def instruction_exist(instruction: Tuple[Union[str, float]]) -> bool:
     exists_query = db.query(InstructionRecord) \
                      .filter(InstructionRecord.instruction == instruction)\
                      .exists()
-    return db.query(exists_query).scalar()
+    res = db.query(exists_query).scalar()
+    db.close()
+    return res
 
 
-@lru_cache()
 def fetch_instruction_result(instruction: Tuple[Union[str, float]]) -> float:
     """
     retrieve the result from a given existed instruction in db
@@ -50,8 +51,8 @@ def fetch_instruction_result(instruction: Tuple[Union[str, float]]) -> float:
     return res.one().result
 
 
-@lru_cache()
-def fetch_data() -> pd.DataFrame:
+@lru_cache(maxsize=None)
+def fetch_data(nb_to_fetch: int) -> pd.DataFrame:
     """
         Utilisation of functools.lru_cache decorator \
         in Python helps avoid redundant data
@@ -62,4 +63,17 @@ def fetch_data() -> pd.DataFrame:
     db = init_db()
     query = 'SELECT instruction, result FROM instruction_record;'
     data = pd.read_sql_query(query, db.connection())
+    db = init_db()
+    db.close()
     return pd.DataFrame(data)
+
+
+def count_nb_instructions() -> int:
+    """
+        Return how much instructions there currently are in the db
+        :return (int): count
+    """
+    db = init_db()
+    res = db.query(InstructionRecord).count()
+    db.close()
+    return res

@@ -9,7 +9,8 @@ from db_actions import (
     register_to_db,
     instruction_exist,
     fetch_instruction_result,
-    fetch_data
+    fetch_data,
+    count_nb_instructions
 )
 from utils import get_data_filepath
 
@@ -55,7 +56,8 @@ def polish_calculator(inputs: CalculatorSchema) -> float:
     """,
 )
 def get_data_in_csv_file():
-    df = fetch_data()
+    nb_elem_in_db = count_nb_instructions()
+    df = fetch_data(nb_elem_in_db)
     file_path = get_data_filepath()
     df.to_csv(file_path, index=False)
     return FileResponse(
